@@ -1,3 +1,3 @@
 <?php
 
-echo "Deploy con git y github";
+echo "Esta vez el deploy es con fabric :)";
