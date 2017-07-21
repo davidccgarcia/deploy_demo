@@ -1,6 +1,6 @@
 @servers(['styde' => 'styde'])
 
-@task('list', ['on' => 'styde'])
+@task('deploy', ['on' => 'styde'])
 	cd /var/www/html/deploy_demo
-	ls -la
+	git pull origin master
 @endtask
