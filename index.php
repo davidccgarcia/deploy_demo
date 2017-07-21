@@ -1,5 +1,3 @@
 <?php
 
-phpinfo();
-
-echo 'Hola Mundo!';
+echo "Esta vez el deploy es con fabric :) desde Clínica Colombia";
