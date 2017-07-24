@@ -63,4 +63,4 @@ def swap_sysmlinks():
 
     run("ln -nfs %s %s" % (release_into, current_release))
 
-    run("sudo service httpd reload")
+    run("sudo /etc/init.d/httpd reload")
