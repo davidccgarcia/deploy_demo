@@ -52,7 +52,7 @@ def create_release():
 
 def build_site():
     with cd("%s/%s" % (releases_dir, next_release)):
-        run("Something")
+        run("ls -la")
 
 def swap_sysmlinks():
     release_into = "%s/%s" % (releases_dir, next_release)
