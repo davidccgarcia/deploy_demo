@@ -1,0 +1,11 @@
+{
+    "name": "david/deploy",
+    "description": "A deploy demo from styde",
+    "authors": [
+        {
+            "name": "David Garcia",
+            "email": "ccristhiangarcia@gmail.com"
+        }
+    ],
+    "require": {}
+}
