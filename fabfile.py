@@ -39,19 +39,19 @@ def init():
 		run("mkdir -p %s/storage/framework/views" % persist_dir)
 		run("mkdir -p %s/storage/logs" % persist_dir)
 
-def update_git()
+def update_git():
 	with cd(repo_dir):
 		run("git checkout %s" % git_branch)
-		run("git pull origin %s" git_branch)
+		run("git pull origin %s" % git_branch)
 
 def create_release():
 	release_into = "%s/%s" % (releases_dir, next_release)
-	run("mkdir -p %s" %s release_into)
+	run("mkdir -p %s" % release_into)
 	with cd(repo_dir):
 		run("git archive --worktree-attributes %s | tar -x -C %s" % (git_branch, release_into))
 
 def build_site():
-	with cd("%s/%s" %s (releases_dir, next_release)):
+	with cd("%s/%s" % (releases_dir, next_release)):
 		run("Something")
 
 def swap_sysmlinks():
@@ -63,4 +63,4 @@ def swap_sysmlinks():
 
 	run("ln -nfs %s %s" % (release_into, current_release))
 
-	run("sudo service httpd reload")
+	run("sudo /etc/init.d/httpd reload")
