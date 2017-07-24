@@ -14,7 +14,7 @@ git_repo = "https://github.com/davidccgarcia/deploy_demo.git"
 repo_dir = "/var/www/html/deploy_demo/repo"
 persist_dir = "/var/www/html/deploy_demo/persist"
 next_release = "%(time).0f" % {'time': time()}
-current_release = "var/www/html/deploy_demo/current"
+current_release = "/var/www/html/deploy_demo/current"
 
 
 @task
