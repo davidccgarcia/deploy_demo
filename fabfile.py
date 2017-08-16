@@ -4,14 +4,14 @@ import os
 from StringIO import StringIO
 from tempfile import NamedTemporaryFile
 
-from fabric.api import cd, run, env
+from fabric.api import cd, run, env, get, local
 from fabric.decorators import task
 from fabric.contrib.files import exists, upload_template
 
 env.use_ssh_config = True
 env.hosts = ['styde']
 
-releases_dir = "/var/www/html/deploy_demo/releases"
+release_dir = "/var/www/html/deploy_demo/releases"
 git_branch = "master"
 git_repo = "https://github.com/davidccgarcia/deploy_demo.git"
 repo_dir = "/var/www/html/deploy_demo/repo"
@@ -33,7 +33,8 @@ def deploy():
 def rollback():
     last_release = get_last_release()
     current_release = get_current_release()
-
+    print "last_release " + last_release
+    print "current_release " + current_release
     rollback_release(last_release)
 
     write_last_release(current_release)
@@ -66,13 +67,13 @@ def get_current_release():
     return fd.getvalue()
 
 def rollback_release(to_release):
-    release_into = "%s/%s" % (releases_dir, to_release)
+    release_into = "%s/%s" % (release_dir, to_release)
     run("ln -nfs %s %s" % (release_into, current_release))
     run("sudo /etc/init.d/httpd reload")
 
 def init():
-    if not exists(releases_dir):
-        run("mkdir -p %s" % releases_dir)
+    if not exists(release_dir):
+        run("mkdir -p %s" % release_dir)
 
     if not exists(repo_dir):
         run("git clone -b %s %s %s" % (git_branch, git_repo, repo_dir))
@@ -90,7 +91,7 @@ def update_git():
         run("git pull origin %s" % git_branch)
 
 def create_release():
-    release_into = "%s/%s" % (releases_dir, next_release)
+    release_into = "%s/%s" % (release_dir, next_release)
     run("mkdir -p %s" % release_into)
     with cd(repo_dir):
         run("git archive --worktree-attributes %s | tar -x -C %s" % (git_branch, release_into))
@@ -100,17 +101,17 @@ def create_release():
         run("git pull origin %s" % git_branch)
 
 def create_release():
-    release_into = "%s/%s" % (releases_dir, next_release)
+    release_into = "%s/%s" % (release_dir, next_release)
     run("mkdir -p %s" % release_into)
     with cd(repo_dir):
         run("git archive --worktree-attributes %s | tar -x -C %s" % (git_branch, release_into))
 
 def build_site():
-    with cd("%s/%s" % (releases_dir, next_release)):
+    with cd("%s/%s" % (release_dir, next_release)):
         run("ls -la")
 
 def swap_sysmlinks():
-    release_into = "%s/%s" % (releases_dir, next_release)
+    release_into = "%s/%s" % (release_dir, next_release)
 
     run("ln -nfs %s/.env %s/.env" % (persist_dir, release_into))
     run("rm -rf %s/storage" % release_into)
@@ -118,8 +119,8 @@ def swap_sysmlinks():
 
     run("ln -nfs %s %s" % (release_into, current_release))
 
-    run("sudo /etc/init.d/httpd reload")
-
     write_last_release(get_current_release())
 
-    write_current_release(next_release())
+    write_current_release(next_release)
+    
+    run("sudo /etc/init.d/httpd reload")

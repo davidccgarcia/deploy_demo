@@ -6,4 +6,4 @@ echo "<p><strong>Este es un deploy con envoy, pero falta realizar el fast-rollba
 
 echo "Deploy con zero downtime desde clinica colombia, Gracias por tomar el curso!";
 
-echo "Ahora estamos realizando el deploy!";
+echo "Ahora estamos realizando el deploy";
